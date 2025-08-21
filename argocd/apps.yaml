@@ -1,0 +1,51 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backend-staging
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/abdul7896/my-prod-helm.git
+    targetRevision: HEAD
+    path: charts/backend
+    helm:
+      valueFiles:
+        - values.yaml
+        - values.staging.yaml
+      releaseName: backend-staging
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: backend-staging
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backend-production
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/abdul7896/my-prod-helm.git
+    targetRevision: HEAD
+    path: charts/backend
+    helm:
+      valueFiles:
+        - values.yaml
+        - values.production.yaml
+      releaseName: backend-prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: backend-production
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

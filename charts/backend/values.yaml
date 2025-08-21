@@ -1,0 +1,27 @@
+replicaCount: 2
+
+image:
+  repository: your-registry/backend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+env: 
+  DEPLOY_ENV: development
+  PORT: "8080"
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+resources: {}
+#  requests:
+#    memory: "64Mi"
+#    cpu: "50m"
+#  limits:
+#    memory: "128Mi"
+#    cpu: "100m"
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

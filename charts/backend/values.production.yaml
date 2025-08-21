@@ -1,0 +1,24 @@
+replicaCount: 3
+
+image:
+  tag: v1.2
+
+env:
+  DEPLOY_ENV: production
+
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "100m"
+  limits:
+    memory: "256Mi"
+    cpu: "200m"
+
+nodeSelector:
+  node-role.kubernetes.io/worker: ""
+
+tolerations:
+  - key: "dedicated"
+    operator: "Equal"
+    value: "backend"
+    effect: "NoSchedule"
